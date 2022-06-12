@@ -2,10 +2,10 @@ import { useCallback, useMemo } from "react";
 
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
-// import { loadFull } from "tsparticles";
+import type { ISourceOptions } from "tsparticles-engine";
 
 function ParticlesComponent() {
-  const options = useMemo(() => {
+  const options: ISourceOptions = useMemo(() => {
     return {
       particles: {
         move: {
@@ -34,7 +34,7 @@ function ParticlesComponent() {
   }, []);
 
   const particlesInit = useCallback((engine) => {
-    loadSlim(engine);
+    return loadSlim(engine);
     // loadFull(engine);
   }, []);
 

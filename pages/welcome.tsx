@@ -1,8 +1,9 @@
 import Link from "next/link";
+import PageWrapper from "../components/Layout/PageWrapper";
 
 function Welcome() {
   return (
-    <div className="flex flex-col items-center bg-gradient-to-b  from-black to-zinc-900 min-h-screen w-full justify-center">
+    <PageWrapper>
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-white text-3xl mb-8 text-extrabold">
           Welcome to Zenify
@@ -15,7 +16,7 @@ function Welcome() {
       <button className="text-white font-extrabold underline underline-offset-2 text-md px-4 py-3 mb-2">
         <Link href="/login">Return to login</Link>
       </button>
-    </div>
+    </PageWrapper>
   );
 }
 

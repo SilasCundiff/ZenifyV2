@@ -1,6 +1,7 @@
 import { getProviders, signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect } from "react";
+import PageWrapper from "../components/Layout/PageWrapper";
 import { useSpotify } from "../hooks/useSpotify";
 import { Provider } from "../interfaces";
 
@@ -10,7 +11,7 @@ function Login({ providers }) {
   console.log("Login", session, status);
 
   return (
-    <div className="flex flex-col items-center bg-gradient-to-b  from-black to-zinc-900  min-h-screen w-full justify-center">
+    <PageWrapper>
       <h1 className="text-white text-3xl mb-8 text-extrabold">
         Welcome to Zenify!
       </h1>
@@ -43,7 +44,7 @@ function Login({ providers }) {
           <Link href="/welcome">Learn About Zenify</Link>
         </button>
       </div>
-    </div>
+    </PageWrapper>
   );
 }
 
