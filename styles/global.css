@@ -3,3 +3,13 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+
+html {
+  font-family: "Noto Sans", sans-serif;
+  /* font-family: "Noto Sans JP", sans-serif; */
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsla(0, 00%, 40%, 0.5) hsla(120, 00%, 20%, 0.5);
+}
