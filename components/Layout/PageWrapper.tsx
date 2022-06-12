@@ -6,7 +6,7 @@ interface PageWrapperProps {
 
 const PageWrapper: FunctionComponent<PageWrapperProps> = ({ children }) => {
   return (
-    <div className="flex flex-col items-center bg-gradient-to-b  from-black to-zinc-900 min-h-screen w-full justify-center">
+    <div className="flex flex-col items-center bg-gradient-to-b  from-black to-zinc-900 min-h-screen max-h-screen w-full justify-center">
       {children}
     </div>
   );

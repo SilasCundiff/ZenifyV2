@@ -7,7 +7,7 @@ interface MainBodyInnerWrapperProps {
 const MainInnerWrapperBody: FunctionComponent<MainBodyInnerWrapperProps> = ({
   children,
 }) => {
-  return <div className="min-w-[calc(100%-64px)]">{children}</div>;
+  return <div className="min-w-[calc(100%-320px)]">{children}</div>;
 };
 
 export default MainInnerWrapperBody;
