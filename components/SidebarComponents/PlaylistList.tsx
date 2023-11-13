@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useSpotify } from "../../hooks/useSpotify";
+import React, { useEffect, useState } from "react";
+import { useSpotify, usePlaylist } from "../../hooks/";
+import { Playlist } from "../../types";
 
 function PlaylistList() {
   const spotifyApi = useSpotify();
@@ -27,7 +28,7 @@ function PlaylistList() {
     <div className="flex-shrink overflow-y-auto overflow-x-hidden flex-grow">
       <ul className="min-h-min font-regular text-lg p-3">
         {playlists &&
-          playlists.map((playlist) => {
+          playlists.map((playlist: Playlist) => {
             return <ListItem key={playlist.id} playlist={playlist} />;
           })}
       </ul>
@@ -36,8 +37,13 @@ function PlaylistList() {
 }
 
 const ListItem = ({ playlist }) => {
+  const playlistStore = usePlaylist();
+
   return (
-    <li className="font-bolt py-1.5 px-2 text-xl align-middle cursor-pointer hover:text-green-100 w-full whitespace-nowrap">
+    <li
+      className="font-bolt py-1.5 px-2 text-xl align-middle cursor-pointer hover:text-green-100 w-full whitespace-nowrap"
+      onClick={() => playlistStore.setPlaylist(playlist.id)}
+    >
       {playlist.name}
     </li>
   );

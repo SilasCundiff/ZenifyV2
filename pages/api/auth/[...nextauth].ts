@@ -52,7 +52,10 @@ export default NextAuth({
         };
       }
 
-      if (Date.now() < token.accessTokenExpires) {
+      if (
+        typeof token.accessTokenExpires === "number" &&
+        Date.now() < token.accessTokenExpires
+      ) {
         return token;
       }
 

@@ -16,7 +16,8 @@
     "react-tsparticles": "^2.0.6",
     "spotify-web-api-node": "^5.0.2",
     "tsparticles": "^2.0.6",
-    "tsparticles-slim": "^2.0.6"
+    "tsparticles-slim": "^2.0.6",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.1.3",
