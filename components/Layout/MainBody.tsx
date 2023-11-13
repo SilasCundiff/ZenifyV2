@@ -6,7 +6,9 @@ interface MainBodyProps {
 
 const MainBody: FunctionComponent<MainBodyProps> = ({ children }) => {
   return (
-    <div className="flex basis-full min-h-[calc(100vh-64px)]">{children}</div>
+    <div className="flex basis-full min-h-[calc(100vh-96px)] overflow-hidden">
+      {children}
+    </div>
   );
 };
 

@@ -30,7 +30,7 @@ function CenterContent() {
   // TODO:: create loading and error components
   if (loadingStatus === "loading") {
     return (
-      <div className="flex  w-full h-[calc(100%-64px)] justify-center align-middle">
+      <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
         <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
           <div className="flex flex-col justify-center align-middle h-full">
             <h1 className="text-5xl text-center font-bold text-green-100">
@@ -44,7 +44,7 @@ function CenterContent() {
 
   if (loadingStatus === "error") {
     return (
-      <div className="flex  w-full h-[calc(100%-64px)] justify-center align-middle">
+      <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
         <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
           <div className="flex flex-col justify-center align-middle h-full">
             <h1 className="text-5xl text-center font-bold text-green-100">
@@ -57,7 +57,7 @@ function CenterContent() {
   }
 
   return (
-    <div className="flex  w-full h-[calc(100%-64px)] justify-center align-middle">
+    <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
       <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
         {playlist ? (
           <>

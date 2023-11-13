@@ -13,3 +13,9 @@ html {
   scrollbar-width: thin;
   scrollbar-color: hsla(0, 00%, 40%, 0.5) hsla(120, 00%, 20%, 0.5);
 }
+
+@layer components {
+  .button {
+    @apply h-5 w-5 cursor-pointer hover:scale-125 transition transform duration-100 ease-out;
+  }
+}

@@ -3,14 +3,28 @@ import { useCurrentTrack } from "../../hooks/useTrack";
 import { convertMsToMinutes } from "../../lib/time";
 
 const TrackItem = ({ track, order }) => {
-  const { id, name, album, artists, duration_ms, explicit, popularity } = track;
+  const { id, name, album, artists, duration_ms, explicit, popularity, uri } =
+    track;
   const spotifyApi = useSpotify();
-  const currentTrack = useCurrentTrack();
+  const { setTrack, setIsPlaying } = useCurrentTrack();
+
+  const playTrack = () => {
+    setTrack(id);
+    setIsPlaying(true);
+    spotifyApi
+      .play({ uris: [uri] })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div
       className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg"
-      onClick={() => console.log(id)}
+      onClick={playTrack}
     >
       <div className="flex items-center space-x-4">
         <p className="text-lg max-w-[32px] font-bold  flex">{order + 1}</p>
