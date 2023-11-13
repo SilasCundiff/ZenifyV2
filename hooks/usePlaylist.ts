@@ -1,9 +1,12 @@
 import { create } from "zustand";
-import { PlaylistStore } from "../types";
+import { PlaylistStore, SelectedPlaylist } from "../types";
 
-// a store for the currently selected playlist
+export const useSelectPlaylist = create<SelectedPlaylist>((set) => ({
+  playlist: { id: "1MGSI5VKz9MGcCKboUuTmX", name: "The Dark Pool" },
+  setPlaylist: (playlistId: string) => set({ playlist: { id: playlistId } }),
+}));
 
 export const usePlaylist = create<PlaylistStore>((set) => ({
-  playlist: { id: "1MGSI5VKz9MGcCKboUuTmX" },
-  setPlaylist: (playlistId: string) => set({ playlist: { id: playlistId } }),
+  playlist: null,
+  setPlaylist: (playListData) => set({ playlist: playListData }),
 }));
