@@ -14,13 +14,13 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/time.js"],
   "exclude": ["node_modules"],
   "baseUrl": "./",
   "paths": {
-    "@lib/*": ["lib/*.ts"],
+    "@lib/*": ["lib/*.ts, lib/*.js"],
     "@pages/*": ["pages/*.tsx"],
     "@components/*": ["components/*.tsx"],
-    "@interfaces/*": ["interfaces/*.ts"],
+    "@interfaces/*": ["interfaces/*.ts"]
   }
 }

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePlaylist, useSpotify, useSelectPlaylist } from "../../hooks";
+import PlaylistHeader from "../CenterContentComponents/PlaylistHeader";
+import PlaylistBody from "../CenterContentComponents/PlaylistBody";
 
 // TODO:: Don't attempt to fetch a playlist if it's already selected and fetched
 function CenterContent() {
@@ -29,7 +31,7 @@ function CenterContent() {
   if (loadingStatus === "loading") {
     return (
       <div className="flex  w-full h-[calc(100%-64px)] justify-center align-middle">
-        <div className="bg-gray-50 bg-opacity-5 w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
+        <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
           <div className="flex flex-col justify-center align-middle h-full">
             <h1 className="text-5xl text-center font-bold text-green-100">
               Loading...
@@ -43,7 +45,7 @@ function CenterContent() {
   if (loadingStatus === "error") {
     return (
       <div className="flex  w-full h-[calc(100%-64px)] justify-center align-middle">
-        <div className="bg-gray-50 bg-opacity-5 w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
+        <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
           <div className="flex flex-col justify-center align-middle h-full">
             <h1 className="text-5xl text-center font-bold text-green-100">
               Error
@@ -56,9 +58,12 @@ function CenterContent() {
 
   return (
     <div className="flex  w-full h-[calc(100%-64px)] justify-center align-middle">
-      <div className="bg-gray-50 bg-opacity-5 w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
+      <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
         {playlist ? (
-          playlist.name
+          <>
+            <PlaylistHeader playlistData={playlist} />
+            <PlaylistBody playlistData={playlist} />
+          </>
         ) : (
           <div className="flex flex-col justify-center align-middle h-full">
             <h1 className="text-5xl text-center font-bold text-green-100">
