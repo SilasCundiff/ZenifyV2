@@ -1,14 +1,10 @@
 import { getProviders, signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect } from "react";
 import PageWrapper from "../components/Layout/PageWrapper";
-import { useSpotify } from "../hooks/useSpotify";
 import { Provider } from "../types";
 
 function Login({ providers }) {
   const { data: session, status } = useSession();
-
-  console.log("Login", session, status);
 
   return (
     <PageWrapper>

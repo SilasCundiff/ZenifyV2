@@ -29,8 +29,6 @@ const IndexPage = () => {
     }
   }, [session, spotifyApi]);
 
-  console.log("playlists: ", playlists);
-
   return (
     <PageWrapper>
       <DashboardLayout>

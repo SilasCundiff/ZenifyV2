@@ -10,8 +10,6 @@ const refreshAccessToken = async (token: JWT) => {
 
     const { body: refreshedToken } = await spotifyApi.refreshAccessToken();
 
-    console.log("Refreshed token: ", refreshedToken);
-
     return {
       ...token,
       accessToken: refreshedToken.access_token,
