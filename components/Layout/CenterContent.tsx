@@ -3,6 +3,7 @@ import { usePlaylist, useSpotify, useSelectPlaylist } from "../../hooks";
 import PlaylistHeader from "../CenterContentComponents/PlaylistHeader";
 import PlaylistBody from "../CenterContentComponents/PlaylistBody";
 import { useSession } from "next-auth/react";
+import LoadingSpinner from "../LoadingSpinner";
 
 function CenterContent() {
   const { playlist, setPlaylist } = usePlaylist();
@@ -30,9 +31,7 @@ function CenterContent() {
       <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
         <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
           <div className="flex flex-col justify-center align-middle h-full">
-            <h1 className="text-5xl text-center font-bold text-green-100">
-              Loading...
-            </h1>
+            <LoadingSpinner size="large" />
           </div>
         </div>
       </div>
