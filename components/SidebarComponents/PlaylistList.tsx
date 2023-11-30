@@ -13,7 +13,6 @@ function PlaylistList() {
       spotifyApi
         .getUserPlaylists()
         .then((data) => {
-          // TODO:: data.body.items only contains the first 20 playlists
           setPlaylists(data.body.items);
         })
         .catch((err) => {
@@ -27,7 +26,13 @@ function PlaylistList() {
       <ul className="min-h-min font-regular text-lg p-3">
         {playlists &&
           playlists.map((playlist) => {
-            return <ListItem key={playlist.id} playlist={playlist} />;
+            return (
+              <ListItem
+                key={playlist.id}
+                playlistId={playlist.id}
+                playlistTitle={playlist.name}
+              />
+            );
           })}
       </ul>
     </div>

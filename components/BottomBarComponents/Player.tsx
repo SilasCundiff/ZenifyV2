@@ -1,6 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useSpotify } from "../../hooks";
-import { useCurrentTrack, useTrackInfo } from "../../hooks/useTrack";
+import {
+  useCurrentTrack,
+  useTrackInfo,
+  useSelectedSongStore,
+  usePlaybackStore,
+} from "../../hooks/useTrack";
 import { useCallback, useEffect, useState } from "react";
 import {
   HeartIcon,
@@ -15,23 +20,25 @@ import {
   ReplyIcon,
   VolumeUpIcon,
 } from "@heroicons/react/solid";
-import LoadingSpinner from "../LoadingSpinner";
+
 import { debounce } from "lodash";
+import NowPlayingInfo from "./NowPlayingInfo";
 
 const Player = () => {
   const spotifyApi = useSpotify();
   const { data: session, status } = useSession();
-  const { track, isPlaying, setTrack, setIsPlaying } = useCurrentTrack();
+  const { track, setTrack } = useCurrentTrack();
   const [volume, setVolume] = useState(50);
 
-  const trackInfo = useTrackInfo();
+  const { selectedSong } = useSelectedSongStore();
+  const { isPlaying, setIsPlaying } = usePlaybackStore();
 
-  console.log("trackInfo", trackInfo);
-  console.log("volume", volume);
+  const trackInfo = useTrackInfo();
 
   const fetchCurrentTrack = () => {
     if (!trackInfo) {
       spotifyApi.getMyCurrentPlayingTrack().then((data) => {
+        console.log("data.body", data.body);
         setTrack(data.body?.item.id);
         spotifyApi.getMyCurrentPlaybackState().then((data) => {
           setIsPlaying(data.body?.is_playing);
@@ -134,26 +141,7 @@ const Player = () => {
 
   return (
     <div className="w-full h-24 min-h-24 flex-shrink-0 grid grid-cols-3 text-xs md:text-base px-2 md:px-6">
-      <div className="flex items-center space-x-4 overflow-hidden max-w-[320px]">
-        {trackInfo && (
-          <>
-            <img
-              className="hidden md:inline h-10 w-10 md:h-16 md:w-16"
-              src={trackInfo?.album.images?.[0]?.url}
-              alt="album cover"
-            />
-            <div>
-              <h3 className="md:text-xl">{trackInfo?.name}</h3>
-              <p className="md:text-lg">{trackInfo?.artists?.[0]?.name}</p>
-            </div>
-          </>
-        )}
-        {!trackInfo && status === "loading" && (
-          <div className="p-4">
-            <LoadingSpinner size="small" />
-          </div>
-        )}
-      </div>
+      <NowPlayingInfo songData={selectedSong} />
       <div className="flex items-center justify-center w-full text-4xl ">
         <SwitchHorizontalIcon className="button" />
         <div className="space-x-4 flex items-center justify-center  mr-[64px] ml-8">
@@ -166,9 +154,9 @@ const Player = () => {
           )}
           <FastForwardIcon className="button w-10 h-10" onClick={skipTrack} />
         </div>
+        N
       </div>
       <div className=" flex items-center space-x-3 md:space-x-4 justify-end pr-5">
-        {/* volume controls */}
         <VolumeDownIcon className="button" onClick={handleVolumeDecrease} />
         <input
           className="volume-slider w-14 md:w-28"

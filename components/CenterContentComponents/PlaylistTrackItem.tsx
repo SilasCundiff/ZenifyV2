@@ -1,30 +1,19 @@
-import { useSpotify } from "../../hooks";
-import { useCurrentTrack } from "../../hooks/useTrack";
+import { useSelectedSongStore } from "../../hooks/useTrack";
 import { convertMsToMinutes } from "../../lib/time";
 
-const TrackItem = ({ track, order }) => {
+const PlaylistTrackItem = ({ track, order }) => {
   const { id, name, album, artists, duration_ms, explicit, popularity, uri } =
     track;
-  const spotifyApi = useSpotify();
-  const { setTrack, setIsPlaying } = useCurrentTrack();
+  const { selectedSong, setSelectedSong } = useSelectedSongStore();
 
-  const playTrack = () => {
-    setTrack(id);
-    setIsPlaying(true);
-    spotifyApi
-      .play({ uris: [uri] })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleSelectTrack = () => {
+    setSelectedSong(track);
   };
 
   return (
     <div
       className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-green-800 hover:bg-opacity-30 hover:text-white rounded-lg cursor-pointer"
-      onClick={playTrack}
+      onClick={handleSelectTrack}
     >
       <div className="flex items-center space-x-4">
         <p className="text-lg max-w-[32px] font-bold  flex">{order + 1}</p>
@@ -46,4 +35,4 @@ const TrackItem = ({ track, order }) => {
   );
 };
 
-export default TrackItem;
+export default PlaylistTrackItem;

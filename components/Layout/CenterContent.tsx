@@ -1,34 +1,32 @@
-import { useEffect } from "react";
-import { usePlaylist, useSpotify, useSelectPlaylist } from "../../hooks";
+import { useEffect, useState } from "react";
+import { useSelectedPlaylistStore, useSpotify } from "../../hooks";
 import PlaylistHeader from "../CenterContentComponents/PlaylistHeader";
 import PlaylistBody from "../CenterContentComponents/PlaylistBody";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "../LoadingSpinner";
 
 function CenterContent() {
-  const { playlist, setPlaylist } = usePlaylist();
+  const { playlist } = useSelectedPlaylistStore();
+  const [playlistData, setPlaylistData] = useState(null);
   const spotifyApi = useSpotify();
   const { status } = useSession();
-  const selectedPlaylist = useSelectPlaylist();
 
   useEffect(() => {
-    console.log("selectedPlaylist", selectedPlaylist.playlist);
-    if (selectedPlaylist.playlist.id) {
+    if (playlist?.id) {
       spotifyApi
-        .getPlaylist(selectedPlaylist.playlist.id)
+        .getPlaylist(playlist.id)
         .then((data) => {
-          setPlaylist(data.body);
+          setPlaylistData(data.body);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [selectedPlaylist, spotifyApi, status]);
+  }, [playlist, spotifyApi, status]);
 
-  if (
-    status !== "authenticated" ||
-    (!playlist && selectedPlaylist.playlist.id)
-  ) {
+  console.log("playlistData", playlistData);
+
+  if (status !== "authenticated") {
     return (
       <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
         <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
@@ -40,7 +38,7 @@ function CenterContent() {
     );
   }
 
-  if (!selectedPlaylist.playlist.id) {
+  if (!playlistData) {
     return (
       <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
         <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
@@ -59,8 +57,8 @@ function CenterContent() {
       <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
         {playlist && (
           <>
-            <PlaylistHeader playlistData={playlist} />
-            <PlaylistBody playlistData={playlist} />
+            <PlaylistHeader playlistData={playlistData} />
+            <PlaylistBody playlistData={playlistData} />
           </>
         )}
       </div>
