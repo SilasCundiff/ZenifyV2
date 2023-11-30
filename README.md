@@ -1,6 +1,12 @@
-# Zenify v2 - Nextjs, Tailwind, TypeScript
+# Zenify v2
 
-The goal is the completely redesign and code from scratch my original Zenify app from almost 2 years ago.
+    Online Spotify particle visualizer using  Nextjs, Tailwind, TypeScript, and SpotifyAPI
 
-TODO:
-rewrite how useTrack and usePlaylist work.
+Requires the following Environment variables:
+
+```
+NEXTAUTH_URL={full site url}
+NEXT_PUBLIC_CLIENT_SECRET={public key from spotify dashbaord}
+NEXT_PUBLIC_CLIENT_ID={public client id from spotify dashboard}
+JWT_SECRET={hashed value to use as a jwt secret}
+```

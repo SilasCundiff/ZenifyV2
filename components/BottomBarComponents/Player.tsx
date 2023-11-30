@@ -17,7 +17,7 @@ import {
 } from "@heroicons/react/solid";
 
 const Player = () => {
-  const spotifyApi = useSpotify();
+  const { spotifyApi } = useSpotify();
   const { data: session, status } = useSession();
   const { track, isPlaying, setTrack, setIsPlaying } = useCurrentTrack();
   const [volume, setVolume] = useState(50);
@@ -36,9 +36,9 @@ const Player = () => {
   const fetchCurrentTrack = () => {
     if (!trackInfo) {
       spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-        setTrack(data.body.item.id);
+        setTrack(data.body?.item.id);
         spotifyApi.getMyCurrentPlaybackState().then((data) => {
-          setIsPlaying(data.body.is_playing);
+          setIsPlaying(data.body?.is_playing);
         });
       });
     }

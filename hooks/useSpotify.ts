@@ -2,6 +2,13 @@ import { useSession, signIn } from "next-auth/react";
 import { useEffect } from "react";
 import spotifyApi from "../lib/spotify";
 
+/**A
+ * @returns {SpotifyWebApi} - An instance of the SpotifyWebApi object with the access token set.
+ *
+ * @example
+ * const spotifyApi = useSpotify();
+ * const accessToken = spotifyApi.getAccessToken();
+ */
 export const useSpotify = () => {
   const { data: session, status } = useSession();
 
@@ -15,5 +22,5 @@ export const useSpotify = () => {
     }
   }, [session]);
 
-  return spotifyApi;
+  return { spotifyApi, status };
 };

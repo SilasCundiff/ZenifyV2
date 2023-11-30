@@ -11,7 +11,7 @@ import TopBar from "../components/Layout/TopBar";
 import { useSpotify } from "../hooks/useSpotify";
 
 const IndexPage = () => {
-  const spotifyApi = useSpotify();
+  const { spotifyApi } = useSpotify();
   const { data: session, status } = useSession();
   const [playlists, setPlaylists] = useState(null);
 

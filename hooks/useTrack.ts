@@ -11,7 +11,7 @@ export const useCurrentTrack = create<any>((set) => ({
 }));
 
 export const useTrackInfo = () => {
-  const spotify = useSpotify();
+  const { spotifyApi } = useSpotify();
   const {
     track: { id },
   } = useCurrentTrack();
@@ -21,7 +21,7 @@ export const useTrackInfo = () => {
     const fetchTrackInfo = async () => {
       const trackInfo = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
         headers: {
-          Authorization: `Bearer ${spotify.getAccessToken()}`,
+          Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
         },
       }).then((res) => res.json());
 
