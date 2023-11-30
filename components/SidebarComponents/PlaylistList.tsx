@@ -4,7 +4,7 @@ import { useSpotify } from "../../hooks/";
 import ListItem from "./ListItem";
 
 function PlaylistList() {
-  const { spotifyApi } = useSpotify();
+  const spotifyApi = useSpotify();
   const { data: session, status } = useSession();
   const [playlists, setPlaylists] = useState(null);
 

@@ -22,5 +22,5 @@ export const useSpotify = () => {
     }
   }, [session]);
 
-  return { spotifyApi, status };
+  return spotifyApi;
 };

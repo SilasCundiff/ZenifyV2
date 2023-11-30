@@ -11,7 +11,7 @@ export const useCurrentTrack = create<any>((set) => ({
 }));
 
 export const useTrackInfo = () => {
-  const { spotifyApi } = useSpotify();
+  const spotifyApi = useSpotify();
   const {
     track: { id },
   } = useCurrentTrack();

@@ -5,7 +5,7 @@ import { convertMsToMinutes } from "../../lib/time";
 const TrackItem = ({ track, order }) => {
   const { id, name, album, artists, duration_ms, explicit, popularity, uri } =
     track;
-  const { spotifyApi } = useSpotify();
+  const spotifyApi = useSpotify();
   const { setTrack, setIsPlaying } = useCurrentTrack();
 
   const playTrack = () => {
