@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { useSpotify } from "./useSpotify";
 import { useEffect, useState } from "react";
 
-// todo: fix any
 export const useCurrentTrack = create<any>((set) => ({
   track: { id: null },
   isPlaying: false,
