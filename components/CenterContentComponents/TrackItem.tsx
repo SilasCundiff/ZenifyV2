@@ -23,7 +23,7 @@ const TrackItem = ({ track, order }) => {
 
   return (
     <div
-      className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg"
+      className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-green-800 hover:bg-opacity-30 hover:text-white rounded-lg cursor-pointer"
       onClick={playTrack}
     >
       <div className="flex items-center space-x-4">

@@ -17,7 +17,7 @@ const refreshAccessToken = async (token: JWT) => {
       refreshedToken: refreshedToken.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
-    console.error(error);
+    console.error("error in next auth", error);
 
     return {
       ...token,

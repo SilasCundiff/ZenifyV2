@@ -45,7 +45,7 @@ function CenterContent() {
       <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
         <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
           <div className="flex flex-col justify-center align-middle h-full">
-            <h1 className="text-2xl font-semibold text-center">
+            <h1 className="text-2xl font-semibold fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
               Select a playlist to view its contents
             </h1>
           </div>

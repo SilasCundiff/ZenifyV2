@@ -15,6 +15,8 @@ const IndexPage = () => {
   const { data: session, status } = useSession();
   const [playlists, setPlaylists] = useState(null);
 
+  console.log("session", session);
+
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
       spotifyApi
@@ -46,10 +48,3 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
-
-//  <button
-//    className="bg-[#18D860] text-black px-4 py-3 font-semibold  rounded-full w-48 mb-2"
-//    onClick={() => signOut()}
-//  >
-//    Logout
-//  </button>;
