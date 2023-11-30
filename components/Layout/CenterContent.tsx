@@ -13,7 +13,7 @@ function CenterContent() {
 
   useEffect(() => {
     console.log("selectedPlaylist", selectedPlaylist.playlist);
-    if (selectedPlaylist.playlist) {
+    if (selectedPlaylist.playlist.id) {
       spotifyApi
         .getPlaylist(selectedPlaylist.playlist.id)
         .then((data) => {
@@ -25,13 +25,29 @@ function CenterContent() {
     }
   }, [selectedPlaylist, spotifyApi, status]);
 
-  // TODO:: create loading and error components
-  if (status !== "authenticated" || !playlist) {
+  if (
+    status !== "authenticated" ||
+    (!playlist && selectedPlaylist.playlist.id)
+  ) {
     return (
       <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
         <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
           <div className="flex flex-col justify-center align-middle h-full">
             <LoadingSpinner size="large" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!selectedPlaylist.playlist.id) {
+    return (
+      <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
+        <div className=" w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-lg m-auto">
+          <div className="flex flex-col justify-center align-middle h-full">
+            <h1 className="text-2xl font-semibold text-center">
+              Select a playlist to view its contents
+            </h1>
           </div>
         </div>
       </div>
