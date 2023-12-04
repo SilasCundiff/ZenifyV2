@@ -131,7 +131,7 @@ const Player = () => {
         };
       };
     }
-  }, [token]);
+  }, [token, spotifyApi]);
 
   useEffect(() => {
     if (selectedSong?.id) {
@@ -149,7 +149,22 @@ const Player = () => {
     }
   }, [volume]);
 
+  useEffect(() => {
+    if (!player) {
+      return;
+    }
+
+    player.getCurrentState().then((state) => {
+      if (!state) {
+        setIsActive(false);
+      } else {
+        setIsActive(true);
+      }
+    });
+  }, []);
+
   if (!player) {
+    console.log(player, "player");
     return <>no player</>;
   }
 

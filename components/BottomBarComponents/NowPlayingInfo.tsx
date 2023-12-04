@@ -1,6 +1,5 @@
 import LoadingSpinner from "../LoadingSpinner";
 
-// TODO: Song data should be sourced from the player component as it updates based on the current track
 export default function NowPlayingInfo({ songData }) {
   if (!songData || songData?.id === null) {
     return (
