@@ -1,48 +1,23 @@
 import { create } from "zustand";
-import { useSpotify } from "./useSpotify";
-import { useEffect, useState } from "react";
 import { TrackDetails, PlaybackSong } from "../types";
 
-// export const useCurrentTrack = create<any>((set) => ({
-//   track: { id: null },
-//   isPlaying: false,
-//   setTrack: (trackId: string) => set({ track: { id: trackId } }),
-//   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
-// }));
-
-// export const useSetPlaybackTrack = () => {
-//   const spotifyApi = useSpotify();
-//   const {
-//     selectedSong: { id },
-//   } = useSelectedSongStore();
-//   const [songInfo, setSongInfo] = useState(null);
-
-//   useEffect(() => {
-//     const fetchTrackInfo = async () => {
-//       const trackInfo = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
-//         headers: {
-//           Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
-//         },
-//       }).then((res) => res.json());
-
-//       setSongInfo(trackInfo);
-//     };
-
-//     if (id) {
-//       fetchTrackInfo();
-//     }
-//   }, [id]);
-
-//   return songInfo;
-// };
-
 type SelectedPlaylistState = {
-  selectedSong: TrackDetails | { id: null | string; uri: string | null };
+  selectedSong:
+    | TrackDetails
+    | {
+        id: null | string;
+        uri: string | null;
+        offset: number | null;
+        context: {
+          type: string;
+          uri: string;
+        } | null;
+      };
   setSelectedSong: (selectedSongInfo: TrackDetails) => void;
 };
 
 export const useSelectedSongStore = create<SelectedPlaylistState>((set) => ({
-  selectedSong: { id: null, uri: null },
+  selectedSong: { id: null, uri: null, offset: null, context: null },
   setSelectedSong: (selectedSongInfo) =>
     set({ selectedSong: selectedSongInfo }),
 }));

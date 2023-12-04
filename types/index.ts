@@ -80,6 +80,10 @@ export type TrackDetails = {
   album: Album;
   artists: Array<Artist>;
   available_markets: Array<string>;
+  context: {
+    type: string;
+    uri: string;
+  };
   disc_number: number;
   duration_ms: number;
   episode: boolean;
@@ -90,6 +94,7 @@ export type TrackDetails = {
   id: string;
   is_local: boolean;
   name: string;
+  offset: number;
   popularity: number;
   preview_url: string | null;
   track: boolean;

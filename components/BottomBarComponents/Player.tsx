@@ -37,9 +37,11 @@ const Player = () => {
   const token = spotifyApi.getAccessToken();
 
   const playTrack = () => {
-    console.log("selectedSong", spotifyApi);
     spotifyApi
-      .play({ uris: [selectedSong?.uri] })
+      .play({
+        context_uri: selectedSong?.context.uri,
+        offset: { position: selectedSong?.offset },
+      })
       .then((res) => {
         console.log("res", player);
       })
@@ -110,7 +112,6 @@ const Player = () => {
           if (!state) {
             return;
           }
-          console.log("player_state_changed", state);
 
           setIsPlaying(state.paused);
           setNowPlaying(state.track_window.current_track);

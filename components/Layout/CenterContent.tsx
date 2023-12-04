@@ -24,8 +24,6 @@ function CenterContent() {
     }
   }, [playlist, spotifyApi, status]);
 
-  // console.log("playlistData", playlistData);
-
   if (status !== "authenticated") {
     return (
       <div className="flex  w-full h-[calc(100%-96px)] justify-center align-middle">
