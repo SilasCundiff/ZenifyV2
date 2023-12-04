@@ -1,10 +1,8 @@
 import LoadingSpinner from "../LoadingSpinner";
-import { useSelectedSongStore } from "../../hooks/useTrack";
 
+// TODO: Song data should be sourced from the player component as it updates based on the current track
 export default function NowPlayingInfo({ songData }) {
-  console.log("songData", songData);
-
-  if (songData.id === null) {
+  if (!songData || songData?.id === null) {
     return (
       <div className="flex items-center space-x-4 overflow-hidden max-w-[320px]">
         <div className="p-4"></div>

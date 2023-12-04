@@ -4,9 +4,10 @@ import { convertMsToMinutes } from "../../lib/time";
 const PlaylistTrackItem = ({ track, order }) => {
   const { id, name, album, artists, duration_ms, explicit, popularity, uri } =
     track;
-  const { selectedSong, setSelectedSong } = useSelectedSongStore();
+  const { setSelectedSong } = useSelectedSongStore();
 
   const handleSelectTrack = () => {
+    // console.log("track", track);
     setSelectedSong(track);
   };
 

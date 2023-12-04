@@ -130,3 +130,76 @@ export type Artist = {
 export type ExternalIDs = {
   isrc: string;
 };
+
+export type ActiveState = {
+  timestamp: number;
+  context: {
+    uri: string;
+    metadata: Record<string, unknown>;
+  };
+  disallows: {
+    seeking: boolean;
+    skipping_next: boolean;
+    skipping_prev: boolean;
+  };
+  duration: number;
+  loading: boolean;
+  paused: boolean;
+  playback_features: {
+    hifi_status: string;
+    playback_speed: Record<string, unknown>;
+  };
+  playback_id: string;
+  playback_quality: string;
+  playback_speed: number;
+  position: number;
+  repeat_mode: number;
+  restrictions: {
+    disallow_seeking_reasons: string[];
+    disallow_skipping_next_reasons: string[];
+    disallow_skipping_prev_reasons: string[];
+  };
+  shuffle: boolean;
+  track_window: TrackWindow;
+};
+
+export type TrackWindow = {
+  current_track: PlaybackSong;
+  next_tracks: PlaybackSong[];
+  previous_tracks: PlaybackSong[];
+};
+
+export type PlaybackSong = {
+  album: {
+    name: string;
+    uri: string;
+    images: Spotify.Image[];
+  };
+  artists: PlaybackArtist[];
+  duration_ms: number;
+  id: string;
+  is_playable: boolean;
+  linked_from: {
+    uri: string | null;
+    id: string | null;
+  };
+  media_type: string;
+  name: string;
+  track_type: string;
+  type: string;
+  uid: string;
+  uri: string;
+};
+
+export type PlaybackAlbum = {
+  height?: number;
+  width: number;
+  url: string;
+  size: string;
+};
+
+export type PlaybackArtist = {
+  name: string;
+  uri: string;
+  url: string;
+};

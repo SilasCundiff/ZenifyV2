@@ -1,11 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useSpotify } from "../../hooks";
-import {
-  useCurrentTrack,
-  useTrackInfo,
-  useSelectedSongStore,
-  usePlaybackStore,
-} from "../../hooks/useTrack";
+import { useSelectedSongStore, usePlaybackStore } from "../../hooks/useTrack";
 import { useCallback, useEffect, useState } from "react";
 import {
   HeartIcon,
@@ -25,70 +20,28 @@ import { debounce } from "lodash";
 import NowPlayingInfo from "./NowPlayingInfo";
 
 const Player = () => {
-  const spotifyApi = useSpotify();
-  const { data: session, status } = useSession();
-  const { track, setTrack } = useCurrentTrack();
+  const { selectedSong } = useSelectedSongStore();
+  const {
+    nowPlaying,
+    isPlaying,
+    setIsPlaying,
+    isActive,
+    setIsActive,
+    setNowPlaying,
+  } = usePlaybackStore();
+  const [player, setPlayer] = useState(null);
   const [volume, setVolume] = useState(50);
 
-  const { selectedSong } = useSelectedSongStore();
-  const { isPlaying, setIsPlaying } = usePlaybackStore();
+  const spotifyApi = useSpotify();
 
-  const trackInfo = useTrackInfo();
-
-  const fetchCurrentTrack = () => {
-    if (!trackInfo) {
-      spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-        console.log("data.body", data.body);
-        setTrack(data.body?.item.id);
-        spotifyApi.getMyCurrentPlaybackState().then((data) => {
-          setIsPlaying(data.body?.is_playing);
-        });
-      });
-    }
-  };
+  const token = spotifyApi.getAccessToken();
 
   const playTrack = () => {
-    setIsPlaying(true);
+    console.log("selectedSong", spotifyApi);
     spotifyApi
-      .play({ uris: [trackInfo?.uri] })
+      .play({ uris: [selectedSong?.uri] })
       .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const pauseTrack = () => {
-    setIsPlaying(false);
-    spotifyApi
-      .pause()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const skipTrack = () => {
-    spotifyApi
-      .skipToNext()
-      .then((res) => {
-        console.log(res);
-        fetchCurrentTrack();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const previousTrack = () => {
-    spotifyApi
-      .skipToPrevious()
-      .then((res) => {
-        console.log(res);
-        fetchCurrentTrack();
+        console.log("res", player);
       })
       .catch((err) => {
         console.log(err);
@@ -126,12 +79,69 @@ const Player = () => {
     []
   );
 
-  useEffect(() => {
-    if (spotifyApi.getAccessToken() && !track.id) {
-      fetchCurrentTrack();
-      setVolume(50);
+  const renderPlayer = useCallback(() => {
+    // check to see if the player is already added to the DOM to prevent multiple instances of the player
+    if (token && !window.Spotify) {
+      const script = document.createElement("script");
+      script.src = "https://sdk.scdn.co/spotify-player.js";
+      script.async = true;
+
+      document.body.appendChild(script);
+
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const player = new window.Spotify.Player({
+          name: "Zenify 2",
+          getOAuthToken: (cb) => {
+            cb(token);
+          },
+        });
+
+        setPlayer(player);
+
+        player.addListener("ready", ({ device_id }) => {
+          console.log("Ready with Device ID", device_id);
+        });
+
+        player.addListener("not_ready", ({ device_id }) => {
+          console.log("Device ID has gone offline", device_id);
+        });
+
+        player.addListener("player_state_changed", (state) => {
+          if (!state) {
+            return;
+          }
+          console.log("player_state_changed", state);
+
+          setIsPlaying(state.paused);
+          setNowPlaying(state.track_window.current_track);
+
+          player.getCurrentState().then((state) => {
+            if (!state) {
+              setIsActive(false);
+            } else {
+              setIsActive(true);
+            }
+          });
+        });
+
+        player.connect();
+
+        return () => {
+          player.disconnect();
+        };
+      };
     }
-  }, [track.id, spotifyApi, session]);
+  }, [token]);
+
+  useEffect(() => {
+    if (selectedSong?.id) {
+      playTrack();
+    }
+  }, [selectedSong]);
+
+  useEffect(() => {
+    renderPlayer();
+  }, [token]);
 
   useEffect(() => {
     if (volume > 0 && volume < 100) {
@@ -139,34 +149,55 @@ const Player = () => {
     }
   }, [volume]);
 
-  return (
-    <div className="w-full h-24 min-h-24 flex-shrink-0 grid grid-cols-3 text-xs md:text-base px-2 md:px-6">
-      <NowPlayingInfo songData={selectedSong} />
-      <div className="flex items-center justify-center w-full text-4xl ">
-        <SwitchHorizontalIcon className="button" />
-        <div className="space-x-4 flex items-center justify-center  mr-[64px] ml-8">
-          <RewindIcon className="button w-10 h-10" onClick={previousTrack} />
+  if (!player) {
+    return <>no player</>;
+  }
 
-          {isPlaying ? (
-            <PauseIcon className="button w-12 h-12" onClick={pauseTrack} />
-          ) : (
-            <PlayIcon className="button w-12 h-12" onClick={playTrack} />
-          )}
-          <FastForwardIcon className="button w-10 h-10" onClick={skipTrack} />
+  if (!isActive) {
+    return <>playback not active, open spotify to begin</>;
+  }
+
+  return (
+    <div>
+      <div className="w-full h-24 min-h-24 flex-shrink-0 grid grid-cols-3 text-xs md:text-base px-2 md:px-6">
+        <NowPlayingInfo songData={nowPlaying} />
+        <div className="flex items-center justify-center w-full text-4xl ">
+          <SwitchHorizontalIcon className="button" />
+          <div className="space-x-4 flex items-center justify-center  mr-[64px] ml-8">
+            <RewindIcon
+              className="button w-10 h-10"
+              onClick={() => player.previousTrack()}
+            />
+
+            {!isPlaying ? (
+              <PauseIcon
+                className="button w-12 h-12"
+                onClick={() => player.pause()}
+              />
+            ) : (
+              <PlayIcon
+                className="button w-12 h-12"
+                onClick={() => player.resume()}
+              />
+            )}
+            <FastForwardIcon
+              className="button w-10 h-10"
+              onClick={() => player.nextTrack()}
+            />
+          </div>
         </div>
-        N
-      </div>
-      <div className=" flex items-center space-x-3 md:space-x-4 justify-end pr-5">
-        <VolumeDownIcon className="button" onClick={handleVolumeDecrease} />
-        <input
-          className="volume-slider w-14 md:w-28"
-          type="range"
-          value={volume}
-          min={0}
-          max={100}
-          onChange={(e) => handleVolumeChange(Number(e.target.value))}
-        />
-        <VolumeUpIcon className="button" onClick={handleVolumeIncrease} />
+        <div className=" flex items-center space-x-3 md:space-x-4 justify-end pr-5">
+          <VolumeDownIcon className="button" onClick={handleVolumeDecrease} />
+          <input
+            className="volume-slider w-14 md:w-28"
+            type="range"
+            value={volume}
+            min={0}
+            max={100}
+            onChange={(e) => handleVolumeChange(Number(e.target.value))}
+          />
+          <VolumeUpIcon className="button" onClick={handleVolumeIncrease} />
+        </div>
       </div>
     </div>
   );

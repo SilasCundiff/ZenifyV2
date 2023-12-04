@@ -15,8 +15,6 @@ const IndexPage = () => {
   const { data: session, status } = useSession();
   const [playlists, setPlaylists] = useState(null);
 
-  console.log("session", session);
-
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
       spotifyApi

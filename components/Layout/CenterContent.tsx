@@ -24,7 +24,7 @@ function CenterContent() {
     }
   }, [playlist, spotifyApi, status]);
 
-  console.log("playlistData", playlistData);
+  // console.log("playlistData", playlistData);
 
   if (status !== "authenticated") {
     return (
