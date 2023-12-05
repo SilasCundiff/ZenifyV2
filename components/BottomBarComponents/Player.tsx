@@ -1,25 +1,22 @@
 "use client";
-
-import { useSpotify } from "../../hooks";
-import { useSelectedSongStore, usePlaybackStore } from "../../hooks/useTrack";
-import { useCallback, useEffect, useState } from "react";
-import type { Player } from "spotify-web-playback-sdk";
+import { VolumeUpIcon as VolumeDownIcon } from "@heroicons/react/outline";
+import { debounce } from "lodash";
 import {
-  HeartIcon,
-  VolumeUpIcon as VolumeDownIcon,
-} from "@heroicons/react/outline";
+  useSpotify,
+  useSelectedSongStore,
+  usePlaybackStore,
+} from "../../hooks";
+import NowPlayingInfo from "./NowPlayingInfo";
+
+import { useCallback, useEffect, useState } from "react";
 import {
   RewindIcon,
   SwitchHorizontalIcon,
   FastForwardIcon,
   PauseIcon,
   PlayIcon,
-  ReplyIcon,
   VolumeUpIcon,
 } from "@heroicons/react/solid";
-
-import { debounce } from "lodash";
-import NowPlayingInfo from "./NowPlayingInfo";
 
 const Player = () => {
   const { selectedSong } = useSelectedSongStore();
@@ -31,14 +28,14 @@ const Player = () => {
     setIsActive,
     setNowPlaying,
   } = usePlaybackStore();
-  const [player, setPlayer] = useState<Player | null>(null);
+  const [player, setPlayer] = useState<Spotify.Player | null>(null);
   const [volume, setVolume] = useState(50);
 
   const spotifyApi = useSpotify();
 
   const token = spotifyApi.getAccessToken();
 
-  const playTrack = () => {
+  const playTrack = useCallback(() => {
     if (selectedSong === null || selectedSong.context === null) {
       console.log("no song selected");
       return;
@@ -54,7 +51,7 @@ const Player = () => {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }, [player, selectedSong, spotifyApi]);
 
   const handleVolumeChange = (value) => {
     setVolume(value);
@@ -79,12 +76,15 @@ const Player = () => {
   };
 
   const debouncedVolumeChange = useCallback(
-    debounce((volume: number) => {
-      spotifyApi.setVolume(volume).catch((err) => {
-        console.log(err);
-      });
-    }, 500),
-    []
+    (volume: number) => {
+      const debounced = debounce(() => {
+        spotifyApi.setVolume(volume).catch((err) => {
+          console.log(err);
+        });
+      }, 500);
+      debounced();
+    },
+    [spotifyApi]
   );
 
   const renderPlayer = useCallback(() => {
@@ -139,23 +139,23 @@ const Player = () => {
         };
       };
     }
-  }, [token, spotifyApi]);
+  }, [token, setIsPlaying, setNowPlaying, setIsActive]);
 
   useEffect(() => {
     if (selectedSong?.id) {
       playTrack();
     }
-  }, [selectedSong]);
+  }, [selectedSong, playTrack]);
 
   useEffect(() => {
     renderPlayer();
-  }, [token]);
+  }, [token, renderPlayer]);
 
   useEffect(() => {
     if (volume > 0 && volume < 100) {
       debouncedVolumeChange(volume);
     }
-  }, [volume]);
+  }, [volume, debouncedVolumeChange]);
 
   useEffect(() => {
     if (!player) {
@@ -169,6 +169,7 @@ const Player = () => {
         setIsActive(true);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!player) {

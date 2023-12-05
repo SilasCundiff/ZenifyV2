@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 import { Noto_Sans_Display } from "next/font/google";
+import { getServerSession } from "next-auth";
 import PageWrapper from "../components/Layout/PageWrapper";
 import Provider from "./context/client-provider";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "../lib/authOptions";
+
 import "./global.css";
 
 const natoSansDisplay = Noto_Sans_Display({

@@ -1,6 +1,6 @@
 "use client";
 import { use } from "react";
-import { useSelectedSongStore } from "../../hooks/useTrack";
+import { useSelectedSongStore } from "../../hooks/useSong";
 import PlaylistTrackItem from "./PlaylistTrackItem";
 
 const PlaylistBody = ({ playlistData }) => {
@@ -15,8 +15,8 @@ const PlaylistBody = ({ playlistData }) => {
     <div className="flex flex-col overflow-y-auto p-4 max-h-[900px] gap-y-2">
       {tracks.items.map(({ track }, i: number) => {
         return (
-          <div onClick={() => handleSelectTrack(track, i)}>
-            <PlaylistTrackItem key={track.id} track={track} order={i} />
+          <div key={track.id} onClick={() => handleSelectTrack(track, i)}>
+            <PlaylistTrackItem track={track} order={i} />
           </div>
         );
       })}

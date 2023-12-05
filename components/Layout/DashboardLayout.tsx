@@ -1,8 +1,6 @@
-import { FunctionComponent } from "react";
+import React from "react";
 
-interface ChildrenProps {}
-
-const Children: FunctionComponent<ChildrenProps> = ({ children }) => {
+const DashboardLayout = ({ children }) => {
   return (
     <div className="w-full min-h-screen  text-white flex flex-col justify-between">
       {children}
@@ -10,4 +8,4 @@ const Children: FunctionComponent<ChildrenProps> = ({ children }) => {
   );
 };
 
-export default Children;
+export default DashboardLayout;

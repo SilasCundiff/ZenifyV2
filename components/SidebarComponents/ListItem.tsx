@@ -5,7 +5,7 @@ const ListItem = ({ playlistId, playlistTitle }) => {
   const { playlist } = useSelectedPlaylistStore();
 
   const handleSelectPlaylist = () => {
-    if (playlistId === playlist.id) return;
+    if (playlistId === playlist?.id) return;
     setPlaylist(playlistId);
   };
 

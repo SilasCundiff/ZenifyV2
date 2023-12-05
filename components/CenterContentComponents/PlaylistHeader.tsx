@@ -1,10 +1,18 @@
+import Image from "next/image";
+
 const PlaylistHeader = ({ playlistData }) => {
   const { name, description, images } = playlistData;
 
   return (
     <div className="flex flex-wrap p-4">
       <div className="my-auto flex-shrink-0">
-        <img src={images[0]?.url} className="h-20 w-20" alt="playlist cover" />
+        <Image
+          src={images[0]?.url}
+          className="h-20 w-20"
+          alt="playlist cover"
+          height={80}
+          width={80}
+        />
       </div>
       <div className="">
         <p className="text-2xl ml-4 font-bold mb-1 text-green-100">

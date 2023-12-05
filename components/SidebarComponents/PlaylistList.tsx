@@ -6,7 +6,7 @@ import ListItem from "./ListItem";
 
 function PlaylistList() {
   const spotifyApi = useSpotify();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [playlists, setPlaylists] = useState(null);
 
   useEffect(() => {

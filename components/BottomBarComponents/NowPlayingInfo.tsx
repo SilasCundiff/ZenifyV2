@@ -1,3 +1,4 @@
+import Image from "next/image";
 import LoadingSpinner from "../LoadingSpinner";
 
 export default function NowPlayingInfo({ songData }) {
@@ -13,10 +14,12 @@ export default function NowPlayingInfo({ songData }) {
     <div className="flex items-center space-x-4 overflow-hidden max-w-[320px]">
       {songData && (
         <>
-          <img
+          <Image
             className="hidden md:inline h-10 w-10 md:h-16 md:w-16"
             src={songData.album && songData?.album.images?.[0]?.url}
             alt="album cover"
+            height={64}
+            width={64}
           />
           <div>
             <h3 className="md:text-xl">{songData?.name}</h3>

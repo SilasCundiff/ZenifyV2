@@ -1,24 +1,21 @@
-import { getServerSession } from "next-auth";
-import { getProviders, signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import type { NextRequest } from "next/server";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import type { AuthOptions } from "next-auth";
 import LoginButton from "../../components/LoginButton";
+import { authOptions } from "../../lib/authOptions";
 
 async function Login() {
-  const session = await getServerSession(authOptions);
-  console.log("session", session);
+  const session = await getServerSession<AuthOptions>(authOptions);
 
   return (
     <>
       <h1 className="text-white text-3xl mb-8 text-extrabold">
         Welcome to Zenify!
       </h1>
-      <img className="w-52 mb-9" src="https://links.papareact.com/9xl" alt="" />
       {session !== null && (
         <div>
           <p className="text-white text-lg mb-8 ">
-            You're already logged in and ready to go!
+            You&apos;re already logged in and ready to go!
           </p>
         </div>
       )}
