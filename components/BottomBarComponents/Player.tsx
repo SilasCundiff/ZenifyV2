@@ -29,7 +29,7 @@ const Player = () => {
     setNowPlaying,
   } = usePlaybackStore();
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(10);
 
   const spotifyApi = useSpotify();
 
