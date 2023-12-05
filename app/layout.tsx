@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Noto_Sans_Display } from "next/font/google";
 import { getServerSession } from "next-auth";
 import PageWrapper from "../components/Layout/PageWrapper";
+import ParticlesComponent from "../components/Particles";
 import Provider from "./context/client-provider";
 import { authOptions } from "../lib/authOptions";
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${natoSansDisplay.className}`}>
         <Provider session={session}>
+          <ParticlesComponent />
           <PageWrapper>{children}</PageWrapper>
         </Provider>
       </body>
