@@ -1,3 +1,5 @@
+"use client";
+import { use } from "react";
 import { useSelectedSongStore } from "../../hooks/useTrack";
 import PlaylistTrackItem from "./PlaylistTrackItem";
 

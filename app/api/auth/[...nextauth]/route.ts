@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
+import type { AuthOptions } from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
-import spotifyApi, { LOGIN_URL } from "../../../lib/spotify";
+import spotifyApi, { LOGIN_URL } from "../../../../lib/spotify";
 import { JWT } from "next-auth/jwt";
 
 const refreshAccessToken = async (token: JWT) => {
@@ -26,11 +27,16 @@ const refreshAccessToken = async (token: JWT) => {
   }
 };
 
-export default NextAuth({
+const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
+const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+
+export const authOptions: AuthOptions = {
   providers: [
     SpotifyProvider({
-      clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
-      clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
+      // @ts-ignore
+      clientId: CLIENT_ID,
+      // @ts-ignore
+      clientSecret: CLIENT_SECRET,
       authorization: LOGIN_URL,
     }),
   ],
@@ -63,9 +69,14 @@ export default NextAuth({
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
+      // @ts-ignore
       session.username = token.username;
 
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };

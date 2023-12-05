@@ -1,7 +1,9 @@
-import { useSession } from "next-auth/react";
+"use client";
+
 import { useSpotify } from "../../hooks";
 import { useSelectedSongStore, usePlaybackStore } from "../../hooks/useTrack";
 import { useCallback, useEffect, useState } from "react";
+import type { Player } from "spotify-web-playback-sdk";
 import {
   HeartIcon,
   VolumeUpIcon as VolumeDownIcon,
@@ -29,7 +31,7 @@ const Player = () => {
     setIsActive,
     setNowPlaying,
   } = usePlaybackStore();
-  const [player, setPlayer] = useState(null);
+  const [player, setPlayer] = useState<Player | null>(null);
   const [volume, setVolume] = useState(50);
 
   const spotifyApi = useSpotify();
@@ -37,6 +39,10 @@ const Player = () => {
   const token = spotifyApi.getAccessToken();
 
   const playTrack = () => {
+    if (selectedSong === null || selectedSong.context === null) {
+      console.log("no song selected");
+      return;
+    }
     spotifyApi
       .play({
         context_uri: selectedSong?.context.uri,
@@ -114,6 +120,7 @@ const Player = () => {
           }
 
           setIsPlaying(state.paused);
+          // @ts-ignore
           setNowPlaying(state.track_window.current_track);
 
           player.getCurrentState().then((state) => {
@@ -170,7 +177,14 @@ const Player = () => {
   }
 
   if (!isActive) {
-    return <>playback not active, open spotify to begin</>;
+    return (
+      <div className="w-full h-24 min-h-24 flex-shrink-0 flex text-xs md:text-base px-2 md:px-6 ">
+        <p className="m-auto">
+          Player not active, please open Spotify and select{" "}
+          <span className="text-green-400">Zenify</span> as your active device.
+        </p>
+      </div>
+    );
   }
 
   return (

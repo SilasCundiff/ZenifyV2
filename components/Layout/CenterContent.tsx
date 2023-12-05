@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useSelectedPlaylistStore, useSpotify } from "../../hooks";
 import PlaylistHeader from "../CenterContentComponents/PlaylistHeader";

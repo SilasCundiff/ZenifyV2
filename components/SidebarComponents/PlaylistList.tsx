@@ -1,3 +1,4 @@
+"use client";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useSpotify } from "../../hooks/";
@@ -25,6 +26,7 @@ function PlaylistList() {
     <div className="flex-shrink overflow-y-auto overflow-x-hidden flex-grow">
       <ul className="min-h-min font-regular text-lg p-3">
         {playlists &&
+          // @ts-ignore
           playlists.map((playlist) => {
             return (
               <ListItem
