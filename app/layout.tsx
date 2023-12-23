@@ -1,22 +1,34 @@
-import { Layout } from '@/components/dom/Layout'
-import '@/global.css'
+import { Metadata } from 'next'
+import { Noto_Sans_Display } from 'next/font/google'
+import { getServerSession } from 'next-auth'
 
-export const metadata = {
-  title: 'Next.js + Three.js',
-  description: 'A minimal starter for Nextjs + React-three-fiber and Threejs.',
+import PageWrapper from '@/components/dom/PageWrapper'
+import ParticleCanvas from '@/components/canvas/ParticleCanvas'
+import { authOptions } from '@/helpers/authOptions'
+
+import './global.css'
+import Provider from '@/components/context/client-provider'
+
+const natoSansDisplay = Noto_Sans_Display({
+  subsets: ['latin-ext'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+})
+
+export const metadata: Metadata = {
+  title: 'Zenify',
+  description: 'Zenify is a music player for Spotify with a built-in particle audio visualizer.',
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await getServerSession(authOptions)
   return (
-    <html lang='en' className='antialiased'>
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
+    <html lang='en' className={`${natoSansDisplay.className} antialiased`}>
       <head />
       <body>
-        {/* To avoid FOUT with styled-components wrap Layout with StyledComponentsRegistry https://beta.nextjs.org/docs/styling/css-in-js#styled-components */}
-        <Layout>{children}</Layout>
+        <Provider session={session}>
+          <PageWrapper>{children}</PageWrapper>
+          <ParticleCanvas />
+        </Provider>
       </body>
     </html>
   )
